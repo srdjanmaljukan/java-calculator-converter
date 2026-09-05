@@ -25,6 +25,7 @@ public class Main extends Application {
         Scene scene = new Scene(tabPane, 500, 400);
         primaryStage.setTitle("Calculator & Unit Converter");
         primaryStage.setScene(scene);
+        scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
         primaryStage.show();
     }
 

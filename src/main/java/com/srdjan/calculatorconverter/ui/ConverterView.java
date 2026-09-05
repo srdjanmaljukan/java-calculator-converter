@@ -61,6 +61,11 @@ public class ConverterView extends VBox {
     }
 
     private void convert() {
+        if (valueField.getText().isBlank()) {
+            resultLabel.setText("Result: please fill in all fields");
+            return;
+        }
+
         try {
             double value = Double.parseDouble(valueField.getText());
             UnitConverter.Category category = categoryBox.getValue();
@@ -68,9 +73,16 @@ public class ConverterView extends VBox {
             String to = toUnitBox.getValue();
 
             double result = converter.convert(category, from, to, value);
-            resultLabel.setText("Result: " + result);
+            resultLabel.setText("Result: " + formatResult(result));
         } catch (NumberFormatException ex) {
             resultLabel.setText("Result: invalid input");
         }
+    }
+
+    private String formatResult(double result) {
+        if (result == Math.floor(result) && !Double.isInfinite(result)) {
+            return String.format("%.0f", result);
+        }
+        return String.format("%.4f", result);
     }
 }

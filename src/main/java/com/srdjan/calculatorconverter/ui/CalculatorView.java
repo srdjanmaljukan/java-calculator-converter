@@ -46,6 +46,11 @@ public class CalculatorView extends VBox {
     }
 
     private void calculate() {
+        if (inputA.getText().isBlank() || inputB.getText().isBlank()) {
+            resultLabel.setText("Result: please fill in all fields");
+            return;
+        }
+
         try {
             double a = Double.parseDouble(inputA.getText());
             String operation = operationBox.getValue();
@@ -62,7 +67,7 @@ public class CalculatorView extends VBox {
                 default -> throw new IllegalStateException("Unknown operation");
             }
 
-            resultLabel.setText("Result: " + result);
+            resultLabel.setText("Result: " + formatResult(result));
         } catch (NumberFormatException ex) {
             resultLabel.setText("Result: invalid input");
         } catch (ArithmeticException ex) {
@@ -72,5 +77,12 @@ public class CalculatorView extends VBox {
 
     private double parseB() {
         return Double.parseDouble(inputB.getText());
+    }
+
+    private String formatResult(double result) {
+        if (result == Math.floor(result) && !Double.isInfinite(result)) {
+            return String.format("%.0f", result);
+        }
+        return String.format("%.4f", result);
     }
 }
